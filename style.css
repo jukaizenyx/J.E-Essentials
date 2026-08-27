@@ -1,0 +1,29 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+nav {
+  background-color: #F5F2EC;
+  display: flex;
+  justify-content: space-between;
+}
+nav div {
+  padding: 1em;
+}
+
+.navbar-center ul {
+  display: flex;
+}
+.navbar-center li {
+  list-style-type: none;
+  padding: 0.8em;
+}
+.navbar-center li a {
+  text-decoration: none;
+}
+
+.cta-button a {
+  text-decoration: none;
+  padding: 1em;
+}/*# sourceMappingURL=style.css.map */
