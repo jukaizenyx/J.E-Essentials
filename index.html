@@ -1,28 +1,356 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>J.E Eullaran Essentials</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>J.E Eullaran Essentials | Joy and Elegance in Every Touch</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="logo-brand">
-            <a href="#"> <img src="je_logo.svg" alt=""></a>
-        </div>
-        <div class="navbar-center">
+
+<!---NAVIGATION BAR-->
+<header class="site-nav">
+    <div class="site-nav-inner">
+        <a href="#top" class="logo">
+          <img src="images/je_logo.svg" alt="">
+        </a>
+
+        <nav class="main-nav">
             <ul>
-                <li><a href="#">Home</a>
-                <li><a href="#">About Us</a>
-                <li><a href="#">Featured</a>
-                <li><a href="#">Our App</a>
+                <li><a href="#top">HOME</a></li>
+                <li><a href="#about">ABOUT US</a></li>
+                <li><a href="#featured">FEATURED</a></li>
+                <li><a href="#app">OUR APP</a></li>
+            </ul>
+        </nav>
+         
+        <div class ="cta-nav">
+    
+        <a href="#contact" class="cta-btn-small">CONTACT US</a>
+        <img src="images/arrow.svg" alt="">
+        </div>
+    </div>
+</header>
+
+<main id="top">
+
+    <!-- HERO -->
+    <section class="hero" >
+        <div class=" hero-inner">
+            <div class="hero-copy">
+                <img class= "hero-icon" src="images/hero-icon.svg" alt="">
+                <h1>Joy and Elegance<br>in Every Touch.</h1>
+                <p class="hero-subtext">
+                    A minimalist skincare approach engineered with clean, powerful plant-based
+                    <br>botanical complexes to reveal your skin&rsquo;s raw, authentic radiance.
+                </p>
+                <div class="hero-actions">
+                    <div class="cta-shop">
+                    <a href="#featured" class="shop-btn">SHOP COLLECTION</a>
+                    <img src="images/white arrow.svg" alt="">
+                    </div>
+
+                    <div class="cta-explore">
+                    <a href="#app" class="explore-btn">EXPLORE APP</a>
+                     <img src="images/arrow.svg" alt="">
+                     </div>
+                </div>
+                <ul class="hero-badges">
+                    <li>Dermatologically Tested</li>
+                    <li>Cruelty Free</li>
+                    <li>Premium Quality</li>
                 </ul>
+            </div>
+
+            <figure class="hero-media">
+                <img src="images/hero-img.svg" alt="Woman applying J.E Essentials cream moisturizer to her cheek">
+            </figure>
         </div>
-        <div class="cta-button">
-            <a href="#"> Contact Us</a>
+    </section>
+
+    <!-- OUR JOURNEY / ABOUT -->
+    <section class="journey" id="about" >
+        <div class=" journey-inner">
+            <p class="eyebrow">OUR JOURNEY</p>
+            <h2 id="journey-heading">Inspired by Healthy Skin. Driven by Confidence.</h2>
+            <p class="journey-subtxt">Discover the inspiration behind our commitment to simple, effective skincare.</p>
+             <hr>
+            <blockquote class="journey-quote">
+                <p>&ldquo;J.E Essentials was created with a simple goal: to provide skincare <br>
+                products that nourish, protect, and enhance natural beauty.</p>
+                <p>We believe that everyone deserves high-quality skincare made with care,<br>  
+                helping people feel confident in their own skin every day.&rdquo;</p>
+            </blockquote>
+
+            <hr>
+
+            <p class="journey-detail">
+                Every J.E Essentials batch begins with cold-pressed organic botanicals selected at the
+                peak of potency. By cold-processing our actives, we preserve the delicate enzymes and
+                nutrients your skin requires for true cellular rejuvenation.
+            </p>
+
+            <a href="#about" class="link-underline">Learn more</a>
         </div>
-    </nav>
-   
+    </section>
+
+    <!-- FEATURED PRODUCTS -->
+    <section class="featured" id="featured">
+        <div class="featured-inner">
+            <header class="featured-head">
+                <h2 id="featured-heading">FEATURED PRODUCTS</h2>
+                <p class="featured-subtxt">Meticulously crafted for target skin needs. Safe for the most delicate complexions.</p>
+            </header>
+
+            <ul class="product-grid">
+                <li class="product-card">
+                    <img src="images/first-png.svg" alt="Cream Moisturizer tube">
+                    <h3>Cream Moisturizer</h3>
+                    <p class="price">&#8369;199</p>
+                    <button type="button" class="addcart-btn">ADD TO CART<img src="images/arrow.svg" alt=""></button>
+                </li>
+
+                <li class="product-card">
+                    <img src="images/second-png.svg" alt="Shea Butter Scrub jar">
+                    <h3>Shea Butter Scrub</h3>
+                    <p class="price">&#8369;299</p>
+                    <button type="button" class="addcart-btn">ADD TO CART<img src="images/arrow.svg" alt=""></button>
+                </li>
+
+                <li class="product-card product-card--featured">
+                    <img src="images/third-png.svg" alt="Whitening Lotion bottle">
+                    <h3>Whitening Lotion</h3>
+                     <p class="price">&#8369;399</p>
+                      <button type="button" class="addcart-btn">ADD TO CART<img src="images/arrow.svg" alt=""></button>
+
+                    <!-- <ul class="product-benefits">
+                        <li>Helps brighten and even out skin tone.</li>
+                        <li>Provides hydration without feeling greasy.</li>
+                        <li>Leaves skin feeling soft, smooth, and refreshed.</li>
+                    </ul>
+                    !-->
+                </li>
+                <li class="product-card">
+                    <img src="images/fouth-png.svg" alt="Rejuvenating Spray bottle">
+                    <h3>Rejuvinating Spray</h3>
+                    <p class="price">&#8369;249</p>
+                    <button type="button" class="addcart-btn">ADD TO CART<img src="images/arrow.svg" alt=""></button>
+                </li>
+             </ul>
+            <div class="center">
+                <a href="#featured" class="featured-shop-btn">SHOP COLLETCION</a>
+                <img src="images/white arrow.svg" alt="">
+            </div>
+        </div>
+
+    </section>
+
+    <!--INGREDIENT-SECTION-->
+       <section class="ingredient-sec">
+        <ul class="ingredient-strip">
+            <li><img src="images/rose.svg" alt="">Wild Rosehip</li>
+            <li><img src="images/water.svg" alt="">Multi-Weight Hyaluronic</li>
+            <li><img src="images/sun.svg" alt="">Stabilized Vitamin C</li>
+        </ul>
+   </section>
+    <!-- APP PROMO -->
+    <section class="app-promo" id="app" >
+        <div class="app-promo-inner">
+            <div class="app-promo-copy">
+                <h2 id="app-heading">J.E Essentials <span>Mobile App</span></h2>
+                <p>Shop your favorite skincare products, track your orders, and receive
+                exclusive deals all in one place.</p>
+             <div class="store-badges">
+                    <a href="#app" class="store-badge">
+                        <img src="images/appstore_icon.svg" alt="">
+                    </a>
+                    <a href="#app" class="store-badge">
+                       <img src="images/googlplay_icon.svg" alt="">
+                    </a>
+                </div>
+                
+            <p class="app-cta">DOWNLOAD OUR APP TODAY!</p>
+
+            </div>
+             
+
+            <figure class="app-promo-media">
+                <img src="images/app-icon 1.svg" alt="J.E Essentials mobile app shown on a smartphone screen">
+            </figure>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="testimonials" >
+        <div class="wrap">
+            <header class="testimonial-head">
+                <p class="eyebrow-testimonial">Testimonials</p>
+                <h2 id="testimonials-heading">Skincare Success Stories</h2>
+                <p class="testimonial-subtxt">Real people, real luminous results. Our community speaks for our meticulous formulations.</p>
+            </header>
+
+            <ul class="testimonial-grid">
+                <li class="testimonial-card">
+                    <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <blockquote>
+                        <p>&ldquo;My chronic dry skin is completely transformed. The Cream Moisturizer
+                        feels like pure comfort in a jar. My complexion hasn&rsquo;t been this radiant
+                        in years.&rdquo;</p>
+                    </blockquote>
+                    <footer>
+                        <cite>Sophia L.</cite>
+                        <span class="testimonial-meta">Using Cream Moisturizer for 4 weeks</span>
+                    </footer>
+                </li>
+
+                <li class="testimonial-card">
+                    <div class="stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <blockquote>
+                        <p>&ldquo;The Shea Butter Scrub has healed my skin barrier entirely. I wake up
+                        with a soft, supple glow instead of raw redness. Truly a luxury spa experience
+                        at home.&rdquo;</p>
+                    </blockquote>
+                    <footer>
+                        <cite>Isabella M.</cite>
+                        <span class="testimonial-meta">Using Golden Elixir Oil for 6 weeks</span>
+                    </footer>
+                </li>
+
+                <li class="testimonial-card">
+                    <div class="stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <blockquote>
+                        <p>&ldquo;The rejuvinating spray has given my skin a glow I didn&rsquo;t think
+                        was possible. Fine lines around my eyes have visibly softened. This is my
+                        forever product.&rdquo;</p>
+                    </blockquote>
+                    <footer>
+                        <cite>Charlotte R.</cite>
+                        <span class="testimonial-meta">Using Golden Elixir Oil for 8 weeks</span>
+                    </footer>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact" id="contact" >
+            <div class="contact-header">
+                <h2 id="contact-heading">Your Glow Starts With a Conversation.</h2>
+                <p class="contact-subtxt">
+                    Every question, suggestion, and collaboration matters to us. Reach out through
+                    the form below, and let us help you on your skincare journey.
+                </p>
+            </div>
+
+            <div class="contact-inner">
+               <div class="contact-form-wrap">
+                <form class="contact-form" action="#" method="post">
+                    <div class="form-row">
+                        <label for="full-name">Full name</label>
+                        <input type="text" id="full-name" name="full_name" required>
+                    </div>
+                    <div class="form-row">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-row">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" name="subject">
+                    </div>
+                    <div class="form-row">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">SUBMIT</button>
+                </form>
+                </div>
+            
+
+            <div class="contact-map">
+                <p class="map-subtxt">Prefer to visit us? Come say hello at our office.</p>
+                <div class="map-embed">
+                    <iframe
+                        title="Map showing J.E Eullaran Essentials office in Calindagan, Dumaguete City"
+                        src="https://maps.google.com/maps?q=Calindagan,%20Dumaguete%20City,%20Philippines&t=&z=14&ie=UTF8&iwloc=&output=embed"
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"  width="650px" height="700px">
+    
+                    </iframe>
+                </div>
+            </div>
+         </div> 
+        </div>
+    </section>
+
+    <!-- LUMINOUS LIFESTYLES / INSTAGRAM -->
+    <section class="lifestyles">
+        <div class="lifestyles-wrap">
+            <p class="lifestyle-brow">J.E Eullaran Essentials</p>
+            <h2 id="lifestyle-heading" >Luminous Lifestyles</h2>
+            <p class="lifestyle-subtxt">Follow our slow living journey on Instagram <a href="https://instagram.com/jessentials">@jessentials</a></p>
+
+            <ul class="lifestyle-gallery">
+                <li><img src="images/rectangle_1.svg" alt="Skincare product styled on a marble surface"></li>
+                <li><img src="images/reactangle_2.svg" alt="Woman with glowing skin looking upward"></li>
+                <li><img src="images/rectangle_3.svg" alt="Botanical ingredients arranged in a bowl"></li>
+                <li><img src="images/rectangle_5.svg" alt="Close-up of hands holding botanical petals"></li>
+                <li><img src="images/rectangle_66.svg" alt="Amber glass bottles of facial oil"></li>
+            </ul>
+        </div>
+    </section>
+
+</main>
+
+<footer class="site-footer">
+    <div class="footer-inner">
+        <div class=" footer-about">
+            <div class="brand-footer">
+            <img src="images/footer_icon.svg" alt="">
+            <p class="logo-text footer-logo">J.E EULLARAN ESSENTIALS</p>
+            </div>
+            <p class="brand-footer-subtxt">A soft-luxe approach to skincare rituals, aligning <br> active botanicals with clean
+            modern dermatologist <br>science to celebrate your skin&rsquo;s raw radiance.</p>
+            <ul class="social-list" >
+                <li><a href="#top" ><img src="images/insta-icon.svg" alt=""></a></li>
+                <li><a href="#top" ><img src="images/fb-icon.svg" alt=""></a></li>
+                <li><a href="#top" ><img src="images/yt1.svg" alt=""></a></li>
+                <li><a href="#top"><img src="images/x-icon.svg" alt=""></a></li>
+            </ul>
+        </div>
+
+        <nav class="footer-links">
+            <h3>QUICK LINKS</h3>
+            <ul>
+                <li><a href="#top">Home</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#featured">Featured Products</a></li>
+                <li><a href="#app">Our App</a></li>
+            </ul>
+        </nav>
+
+        <nav class="footer-links" >
+            <h3>HOUSE OF J.E</h3>
+            <ul>
+                <li><a href="#about">Our Journey</a></li>
+                <li><a href="#top">Testimonials</a></li>
+            </ul>
+        </nav>
+
+        <address class=" footer-contact">
+            <h3>CONTACT DETAILS</h3>
+            <p>Calindagan, Dumaguete City, Philippines</p>
+            <p><a href="mailto:jujilleullaranessentials@gmail.com">jujilleullaranessentials@gmail.com</a></p>
+            <p><a href="tel:+639929858661">(+63) 992 985 8661</a></p>
+        </address>
+    </div>
+     
+    <hr>
+
+    <div class="footer-bottom">
+        <p>&copy; 2026 J.E Eullaran Essentials. All Rights Reserved.</p>
+        <p>Designed for Quiet Luxury Skincare.</p>
+    </div>
+</footer>
+
 </body>
 </html>
