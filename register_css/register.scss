@@ -1,0 +1,96 @@
+
+@font-face {
+  font-family: "GC Saphone Demo";
+  src: local("GC Saphone Demo"), 
+  url('fonts/GC\ SAPHONE-DEMO.TTF')
+}
+
+
+@font-face {
+  font-family: "Geist";
+  src: local("Geist"), 
+  url('fonts/GEIST-REGULAR.TTF')
+}
+
+@font-face {
+  font-family: "Swantime";
+  src: local('Swantime'), 
+  url('fonts/SWANTIME-REGULAR.TTF');
+}
+
+
+
+:root {
+    /* colors */
+    --color-black: black;
+    --color-cream: #F3ECDD;
+    --color-cream-light: #FAF6EC;
+    --color-charcoal: #201C18;
+    --color-charcoal-2: #2B2620;
+    --color-gold: #B08A4E;
+    --color-gold-light: #C9A96A;
+    --color-ink: #3A342C;
+    --color-ink-soft: #6B6255;
+    --color-white: #FFFFFF;
+    --color-border: #E3D8C0;
+    --color-gradient: linear-gradient(90deg, rgba(197, 160, 89, 1) 9%, rgba(236, 230, 217, 1) 33%, rgba(197, 160, 89, 1) 64%, rgba(140, 109, 52, 1) 93%, rgba(197, 160, 89, 1) 100%);
+
+    /* fonts */
+    --font-heading: "GC Saphone Demo", Georgia, serif;
+    --font-accent: "Swantime";
+    --font-body: "Geist", Arial, sans-serif;
+}
+
+.main-register {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: var(--color-cream-light);
+}
+
+.register-heading {
+    text-align: center;
+    color: var(--color-charcoal);
+    font-family: var(--font-body);
+}
+
+.register-heading h1 {
+    font-family: var(--font-heading);
+    background:linear-gradient(90deg, rgba(197, 160, 89, 1) 9%, rgba(236, 230, 217, 1) 33%, rgba(197, 160, 89, 1) 64%, rgba(140, 109, 52, 1) 93%, rgba(197, 160, 89, 1) 100%);
+    color: transparent;
+    background-clip: text;
+}
+
+.main-register form {
+    width: 60%;
+    padding: 30px;
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+}
+
+.main-register input {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0 15px;
+    box-sizing: border-box;
+    border: 1px solid var(--color-border);
+}
+
+.main-register label {
+    color: black;
+    font-family: var(--font-body);
+}
+
+.main-register input[type="submit"] {
+    background: var(--color-gold);
+    color: var(--color-white);
+    border: none;
+    cursor: pointer;
+}
+
+.name-info {
+    display: flex;
+    gap: 10px;
+}
