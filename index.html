@@ -8,14 +8,13 @@
 </head>
 <body>
 
-<!---NAVIGATION BAR-->
 <header class="site-nav">
     <div class="site-nav-inner">
         <a href="#top" class="logo">
           <img src="images/je_logo.svg" alt="">
         </a>
 
-        <nav class="main-nav">
+        <nav class="main-nav" id="mainNav">
             <ul>
                 <li><a href="#top">HOME</a></li>
                 <li><a href="#about">ABOUT US</a></li>
@@ -29,8 +28,15 @@
         <a href="#contact" class="cta-btn-small">CONTACT US</a>
         <img src="images/arrow.svg" alt="">
         </div>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+             <span></span>
+            <span></span>
+            <span></span>
+        </button>
     </div>
 </header>
+
+
 
 <main id="top">
 
@@ -351,6 +357,8 @@
         <p>Designed for Quiet Luxury Skincare.</p>
     </div>
 </footer>
+
+<script src="javascript.js"></script>
 
 </body>
 </html>

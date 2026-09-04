@@ -1,3 +1,5 @@
+//a php showing the
+
 <?php
     
     $db_server = "localhost";
@@ -8,11 +10,12 @@
     //make a connection variable
 
  
-    try {
+    
     $conn =  mysqli_connect($db_server, $db_user, $db_pass, $db_name);
-    }
-        catch (mysqli_sql_exception) {   
-               echo "Couldn't connect";
-           }
-        
+    
+    if (!$conn) {
+    die("Couldn't connect: " . mysqli_connect_error());
+}
+
+
 ?>
