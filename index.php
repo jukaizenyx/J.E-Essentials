@@ -20,12 +20,16 @@
                 <li><a href="#about">ABOUT US</a></li>
                 <li><a href="#featured">FEATURED</a></li>
                 <li><a href="#app">OUR APP</a></li>
+                <li><a href="#contact">CONTACT US</a></li>
+                <li class="mobile-shop"><a class="mobile-shop" href="shop.php">SHOP NOW</a></li>
             </ul>
         </nav>
+
+    
          
         <div class ="cta-nav">
     
-        <a href="#contact" class="cta-btn-small">CONTACT US</a>
+        <a href="shop.php" class="cta-btn-small">SHOP NOW</a>
         <img src="images/arrow.svg" alt="">
         </div>
         <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
@@ -91,8 +95,8 @@
             <hr>
 
             <p class="journey-detail">
-                Every J.E Essentials batch begins with cold-pressed organic botanicals selected at the
-                peak of potency. By cold-processing our actives, we preserve the delicate enzymes and
+                Every J.E Essentials batch begins with cold-pressed organic botanicals selected at the <br>
+                peak of potency. By cold-processing our actives, we preserve the delicate enzymes and <br>
                 nutrients your skin requires for true cellular rejuvenation.
             </p>
 
@@ -113,21 +117,21 @@
                     <img src="images/first-png.svg" alt="Cream Moisturizer tube">
                     <h3>Cream Moisturizer</h3>
                     <p class="price">&#8369;199</p>
-                    <button type="button" class="addcart-btn">ADD TO CART<img src="images/arrow.svg" alt=""></button>
+                    <a href="shop.php" class="view-btn">View Product<img src="images/arrow.svg" alt=""></a>
                 </li>
 
                 <li class="product-card">
                     <img src="images/second-png.svg" alt="Shea Butter Scrub jar">
                     <h3>Shea Butter Scrub</h3>
                     <p class="price">&#8369;299</p>
-                    <button type="button" class="addcart-btn">ADD TO CART<img src="images/arrow.svg" alt=""></button>
+                    <a href="shop.php" class="view-btn">View Product<img src="images/arrow.svg" alt=""></a>
                 </li>
 
                 <li class="product-card product-card--featured">
                     <img src="images/third-png.svg" alt="Whitening Lotion bottle">
                     <h3>Whitening Lotion</h3>
                      <p class="price">&#8369;399</p>
-                      <button type="button" class="addcart-btn">ADD TO CART<img src="images/arrow.svg" alt=""></button>
+                      <a href="shop.php" class="view-btn">View Product<img src="images/arrow.svg" alt=""></a>
 
                     <!-- <ul class="product-benefits">
                         <li>Helps brighten and even out skin tone.</li>
@@ -140,11 +144,11 @@
                     <img src="images/fouth-png.svg" alt="Rejuvenating Spray bottle">
                     <h3>Rejuvinating Spray</h3>
                     <p class="price">&#8369;249</p>
-                    <button type="button" class="addcart-btn">ADD TO CART<img src="images/arrow.svg" alt=""></button>
+                    <a href="shop.php" class="view-btn">View Product<img src="images/arrow.svg" alt=""></a>
                 </li>
              </ul>
             <div class="center">
-                <a href="#featured" class="featured-shop-btn">SHOP COLLETCION</a>
+                <a href="shop.php" class="featured-shop-btn">SHOP COLLETCION</a>
                 <img src="images/white arrow.svg" alt="">
             </div>
         </div>
@@ -279,7 +283,7 @@
                         title="Map showing J.E Eullaran Essentials office in Calindagan, Dumaguete City"
                         src="https://maps.google.com/maps?q=Calindagan,%20Dumaguete%20City,%20Philippines&t=&z=14&ie=UTF8&iwloc=&output=embed"
                         loading="lazy"
-                        referrerpolicy="no-referrer-when-downgrade"  width="650px" height="700px">
+                        referrerpolicy="no-referrer-when-downgrade">
     
                     </iframe>
                 </div>
@@ -339,6 +343,7 @@
             <ul>
                 <li><a href="#about">Our Journey</a></li>
                 <li><a href="#top">Testimonials</a></li>
+                <li><a href="shop.php">Our Shop</a></li>
             </ul>
         </nav>
 

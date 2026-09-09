@@ -22,10 +22,10 @@ unset($_SESSION['login_error']);
 
         <nav class="main-nav" id="mainNav">
             <ul>
-                <li><a href="#top">HOME</a></li>
-                <li><a href="#about">ABOUT US</a></li>
-                <li><a href="#featured">FEATURED</a></li>
-                <li><a href="#app">OUR APP</a></li>
+                <li><a href="index.php">HOME</a></li>
+                <li><a href="index.php#about">ABOUT US</a></li>
+                <li><a href="index.php#featured">FEATURED</a></li>
+                <li><a href="index.php#app">OUR APP</a></li>
             </ul>
         </nav>
          
@@ -47,7 +47,7 @@ unset($_SESSION['login_error']);
 
     <main class="main-login">
     <header class="login-heading">
-        <h1>Welcome back to J.E Essentials Shop!</h1>
+        <h1>Welcome to J.E Essentials Shop!</h1>
         <p>Please log in to continue</p>
     </header>
 
