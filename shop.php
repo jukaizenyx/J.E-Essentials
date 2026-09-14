@@ -196,6 +196,7 @@ foreach ($_SESSION['cart'] as $entry) {
                 <span>Subtotal</span>
                 <span id="cartSubtotal">₱0</span>
             </div>
+            <p class="checkout-message" id="checkoutMessage"></p>
             <button type="button" class="btn-primary cart-checkout-btn" id="cartCheckoutBtn">Checkout</button>
         </div>
     </div>

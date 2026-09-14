@@ -78,10 +78,15 @@ $je_orders = function_exists('je_get_user_orders') ? je_get_user_orders($je_user
     <?php endif; ?>
 </main>
 <script>
-    document.querySelectorAll('.btn-cancel-order').forEach(function (btn) {
+
+document.querySelectorAll('.btn-cancel-order').forEach(function (btn) {
     btn.addEventListener('click', function () {
+
         if (this.disabled) return;
-        if (!confirm("Cancel this order? This can't be undone.")) return;
+
+        if (!confirm("Cancel this order? This can't be undone.")) {
+            return;
+        }
 
         var card = this.closest('.order-card');
         var orderId = this.dataset.orderId;
@@ -90,31 +95,61 @@ $je_orders = function_exists('je_get_user_orders') ? je_get_user_orders($je_user
         this.disabled = true;
         this.textContent = 'Cancelling…';
 
+
         fetch('cancel_order.php', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ order_id: orderId })
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                order_id: orderId
+            })
         })
-        .then(function (res) { return res.json(); })
+
+        .then(function (res) {
+            return res.json();
+        })
+
         .then(function (data) {
+
             if (data.success) {
-                card.dataset.status = 'cancelled';
-                var badge = card.querySelector('.order-status');
-                badge.className = 'order-status order-status--cancelled';
-                badge.textContent = 'Cancelled';
-                btn.textContent = 'Cancelled';
-            } else {
-                alert(data.message || 'Could not cancel this order.');
+
+                card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                card.style.opacity = '0';
+                card.style.transform = 'translateX(20px)';
+
+                setTimeout(function () {
+                    card.remove();
+                }, 300);
+
+            } 
+            
+            else {
+
+                alert(
+                    data.message ||
+                    'Could not cancel this order.'
+                );
+
                 btn.disabled = false;
                 btn.textContent = originalLabel;
             }
+
         })
+
+
         .catch(function () {
-            alert('Something went wrong. Please try again.');
+
+            alert(
+                'Something went wrong. Please try again.'
+            );
+
             btn.disabled = false;
             btn.textContent = originalLabel;
         });
+
     });
+
 });
 </script>
 <script>

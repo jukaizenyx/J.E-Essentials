@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Session-backed shopping cart.
  *
@@ -139,12 +140,46 @@ function je_current_user(): ?array
     if (!je_is_logged_in()) {
         return null;
     }
-    return [
-        'id'       => $_SESSION['user_id'] ?? null,
-        'username' => $_SESSION['username'] ?? '',
-    ];
-}
 
+    global $conn;
+
+    $user_id = $_SESSION['user_id'] ?? null;
+
+    if (!$user_id) {
+        return null;
+    }
+
+    $stmt = $conn->prepare("
+        SELECT 
+            id,
+            username,
+            first_name,
+            middle_name,
+            last_name,
+            email,
+            phone,
+            address,
+            is_admin,
+            created_at
+        FROM users
+        WHERE id = ?
+        LIMIT 1
+    ");
+
+    if (!$stmt) {
+        return null;
+    }
+
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+    $user = $result->fetch_assoc();
+
+    $stmt->close();
+
+    return $user ?: null;
+}
 /**
  * All orders for a user, newest first, each with its line items attached.
  * Returns [] if the user has no orders.

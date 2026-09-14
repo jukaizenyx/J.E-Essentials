@@ -68,6 +68,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const cartTrigger = document.getElementById('cartTrigger');
         const cartCheckoutBtn = document.getElementById('cartCheckoutBtn');
         const cartToast = document.getElementById('cartToast');
+        const checkoutMessage = document.getElementById('checkoutMessage');
+        
 
         async function cartRequest(params) {
             const body = new URLSearchParams(params);
@@ -139,6 +141,18 @@ document.addEventListener('DOMContentLoaded', () => {
             cartModalOverlay.classList.remove('is-open');
             document.body.classList.remove('modal-open');
         }
+           
+
+        function closeCartModal() { 
+            cartModalOverlay.classList.remove( 'is-open' ); 
+            document.body.classList.remove( 'modal-open' ); 
+            
+            /* ---------- Clear checkout error ---------- */ 
+            if (checkoutMessage) { 
+                checkoutMessage.style.display = 'none'; 
+                checkoutMessage.textContent = ''; 
+            } 
+        }
 
         if (cartModalClose) cartModalClose.addEventListener('click', closeCartModal);
         cartModalOverlay.addEventListener('click', (e) => {
@@ -155,10 +169,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (cartCheckoutBtn) {
-            cartCheckoutBtn.addEventListener('click', () => {
-                window.location.href = LOGGED_IN ? 'checkout.php' : 'login.php?redirect=checkout.php';
-            });
+    cartCheckoutBtn.addEventListener('click', function () {
+
+        const cartItems = document.querySelectorAll(
+            '#cartItems .cart-item'
+        );
+
+        if (cartItems.length === 0) {
+            checkoutMessage.textContent =
+                'Please add at least one product to your cart before checking out.';
+            checkoutMessage.style.display = 'block';
+            return;
         }
+
+        window.location.href = 'checkout.php';
+    });
+}
 
         window.__jeCart = { cartRequest, renderCart, openCartModal, closeCartModal };
 
@@ -324,6 +350,74 @@ document.addEventListener('DOMContentLoaded', () => {
             if (e.key === 'Escape') closeProductModal();
         });
     }
+
+    const addressOptions = document.querySelectorAll('input[name="address_type"]');
+const newAddressFields = document.getElementById('new-address-fields');
+const newAddressInputs = newAddressFields.querySelectorAll('input');
+
+function updateAddressFields() {
+    const selectedAddress = document.querySelector('input[name="address_type"]:checked');
+
+    if (!selectedAddress) return;
+
+    const useNewAddress = selectedAddress.value === 'new';
+
+    newAddressFields.style.display = useNewAddress ? 'grid' : 'none';
+
+    newAddressInputs.forEach(input => {
+        input.required = useNewAddress;
+    });
+}
+
+addressOptions.forEach(option => {
+    option.addEventListener('change', updateAddressFields);
 });
+
+updateAddressFields();
+
+addressOptions.forEach(option => {
+    option.addEventListener('change', updateAddressFields);
+});
+
+updateAddressFields();
+
+
+/* ---------- GCash Payment ---------- */
+
+const paymentOptions = document.querySelectorAll(
+    'input[name="payment_method"]'
+);
+
+const gcashPayment = document.getElementById('gcash-payment');
+
+if (paymentOptions.length && gcashPayment) {
+
+    function updatePaymentMethod() {
+
+        const selectedPayment = document.querySelector(
+            'input[name="payment_method"]:checked'
+        );
+
+        if (!selectedPayment) return;
+
+        const isGCash = selectedPayment.value === 'GCash';
+
+        gcashPayment.style.display = isGCash ? 'block' : 'none';
+    }
+
+    paymentOptions.forEach(option => {
+        option.addEventListener('change', updatePaymentMethod);
+    });
+
+    updatePaymentMethod();
+}
+
+
+// FOR ADMIN //
+
+
+});
+
+
 
 

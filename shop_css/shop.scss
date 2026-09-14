@@ -1507,3 +1507,12 @@ a {
             color: var(--color-gold);
         }
     }
+.checkout-message {
+    display: none;
+    margin-bottom: 12px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    text-align: center;
+    color: red;
+}

@@ -35,7 +35,10 @@ if (isset($_POST['login'])) {
     $_SESSION['user_id']  = $user['id'];
     $_SESSION['username'] = $user['username'];
     $_SESSION['logged_in'] = true;
-
+    if ((int)$user['is_admin'] === 1) {
+    header('Location: admin.php');
+    exit;
+}
     header("Location: shop.php"); // change 'shop.php' to whatever your main shop page is called
     exit;
 
