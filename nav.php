@@ -8,18 +8,17 @@ $je_cart_count = 0;
 foreach ($_SESSION['cart'] as $entry) {
     $je_cart_count += $entry['qty'];
 }
-/**
- * Expects je_cart_functions.php to already be required by the including
- * page (so session + helper functions are available).
- */
-$je_user = je_current_user();
-$je_cart_count = 0;
-foreach ($_SESSION['cart'] as $entry) {
-    $je_cart_count += $entry['qty'];
-}
 ?>
-
-<header class="site-nav">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/shop_css/shop.css">
+    <title>Document</title>
+</head>
+<body>
+    <header class="site-nav">
     <div class="site-nav-inner">
         <a href="index.php" class="logo">
           <img src="images/je_logo.svg" alt="">
@@ -47,7 +46,7 @@ foreach ($_SESSION['cart'] as $entry) {
                         <span class="profile-name"><?= htmlspecialchars($je_user['username']) ?></span>
                     </button>
                     <div class="profile-dropdown" id="profileDropdown">
-                        <a href="dashboard.php">Dashboard</a>
+                        <a href="dashboard.php">Orders</a>
                         <a href="profile.php">Profile</a>
                         <a href="settings.php">Settings</a>
                         <hr>
@@ -67,4 +66,35 @@ foreach ($_SESSION['cart'] as $entry) {
     </div>
 </header>
 
+<!-- ============ Cart modal ============ -->
+<div class="modal-overlay" id="cartModalOverlay">
+    <div class="modal cart-modal" role="dialog" aria-modal="true" aria-labelledby="cartModalTitle">
+        <button class="modal-close" id="cartModalClose" aria-label="Close">&times;</button>
+        <h2 id="cartModalTitle">Your Cart</h2>
+
+        <div class="cart-items" id="cartItems">
+            <p class="cart-empty" id="cartEmptyMsg">Your cart is empty.</p>
+        </div>
+
+        <div class="cart-summary">
+            <div class="cart-subtotal-row">
+                <span>Subtotal</span>
+                <span id="cartSubtotal">₱0</span>
+            </div>
+            <button type="button" class="btn-primary cart-checkout-btn" id="cartCheckoutBtn">Checkout</button>
+        </div>
+    </div>
+</div>
+
+<!-- ============ Tiny "added to cart" toast ============ -->
+<div class="cart-toast" id="cartToast">Added to cart</div>
+<script>
+    // Server-sourced product + auth data, handed to javascript.js.
+    // Prices always come from PHP — the JS never invents a price.
+    window.JE_PRODUCTS = <?= json_encode(array_values($products), JSON_UNESCAPED_SLASHES) ?>;
+    window.JE_LOGGED_IN = <?= je_is_logged_in() ? 'true' : 'false' ?>;
+</script>
 <script src="javascript.js"></script>
+</body>
+</html>
+    

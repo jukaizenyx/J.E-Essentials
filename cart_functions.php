@@ -17,6 +17,10 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// Provides the mysqli connection as $conn. Adjust this require if your
+// connection file lives elsewhere or uses a different variable name.
+require_once './database/config.php';
+
 if (!isset($_SESSION['cart']) || !is_array($_SESSION['cart'])) {
     $_SESSION['cart'] = [];
 }
@@ -139,4 +143,102 @@ function je_current_user(): ?array
         'id'       => $_SESSION['user_id'] ?? null,
         'username' => $_SESSION['username'] ?? '',
     ];
+}
+
+/**
+ * All orders for a user, newest first, each with its line items attached.
+ * Returns [] if the user has no orders.
+ *
+ * Shape returned per order:
+ *   ['id' => int, 'status' => string, 'total' => float, 'created_at' => string,
+ *    'items' => [['name' => string, 'size' => ?string, 'price' => float, 'quantity' => int], ...]]
+ */
+function je_get_user_orders(int $userId): array
+{
+    global $conn;
+
+    $orders = [];
+
+    $stmt = $conn->prepare(
+        'SELECT id, status, total, created_at FROM orders WHERE user_id = ? ORDER BY created_at DESC'
+    );
+    $stmt->bind_param('i', $userId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    while ($row = $result->fetch_assoc()) {
+        $row['items'] = [];
+        $orders[(int) $row['id']] = $row;
+    }
+    $stmt->close();
+
+    if (empty($orders)) {
+        return [];
+    }
+
+    $orderIds = array_keys($orders);
+    $placeholders = implode(',', array_fill(0, count($orderIds), '?'));
+    $types = str_repeat('i', count($orderIds));
+
+    $itemsStmt = $conn->prepare(
+        "SELECT order_id, name, size, price, quantity FROM order_items WHERE order_id IN ($placeholders)"
+    );
+    $itemsStmt->bind_param($types, ...$orderIds);
+    $itemsStmt->execute();
+    $itemsResult = $itemsStmt->get_result();
+    while ($item = $itemsResult->fetch_assoc()) {
+        $orders[(int) $item['order_id']]['items'][] = [
+            'name'     => $item['name'],
+            'size'     => $item['size'],
+            'price'    => (float) $item['price'],
+            'quantity' => (int) $item['quantity'],
+        ];
+    }
+    $itemsStmt->close();
+
+    foreach ($orders as &$order) {
+        $order['id'] = (int) $order['id'];
+        $order['total'] = (float) $order['total'];
+    }
+    unset($order);
+
+    return array_values($orders);
+}
+
+/**
+ * Cancels an order, but only if it belongs to $userId and is still 'pending'.
+ * Once an order is 'approved' (or already cancelled/completed) this refuses,
+ * so a stale button click or a forged request can't cancel a locked-in order.
+ */
+function je_cancel_order(int $orderId, int $userId): array
+{
+    global $conn;
+
+    $stmt = $conn->prepare('SELECT status FROM orders WHERE id = ? AND user_id = ?');
+    $stmt->bind_param('ii', $orderId, $userId);
+    $stmt->execute();
+    $order = $stmt->get_result()->fetch_assoc();
+    $stmt->close();
+
+    if (!$order) {
+        return ['ok' => false, 'error' => 'Order not found.'];
+    }
+    if ($order['status'] !== 'pending') {
+        return ['ok' => false, 'error' => 'This order can no longer be cancelled.'];
+    }
+
+    $update = $conn->prepare(
+        "UPDATE orders SET status = 'cancelled' WHERE id = ? AND user_id = ? AND status = 'pending'"
+    );
+    $update->bind_param('ii', $orderId, $userId);
+    $update->execute();
+    $cancelled = $update->affected_rows > 0;
+    $update->close();
+
+    return $cancelled
+        ? ['ok' => true]
+        : ['ok' => false, 'error' => 'This order can no longer be cancelled.'];
+}
+
+function je_clear_cart() {
+    $_SESSION['cart'] = [];
 }

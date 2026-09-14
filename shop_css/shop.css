@@ -1402,4 +1402,16 @@ a {
   font-weight: 700;
   font-size: 1.05rem;
   padding-top: 14px;
+}
+
+.profile-back {
+  display: inline-block;
+  margin-bottom: 25px;
+  color: var(--color-ink-soft);
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.2s ease;
+}
+.profile-back:hover {
+  color: var(--color-gold);
 }/*# sourceMappingURL=shop.css.map */

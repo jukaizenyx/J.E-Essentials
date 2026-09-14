@@ -31,7 +31,7 @@ foreach ($_SESSION['cart'] as $entry) {
                 <li><a href="index.php#about">ABOUT US</a></li>
                 <li><a href="index.php#app">OUR APP</a></li>
                 <li><a href="index.php#app">CONTACT US</a></li>
-                <li class="nav-mobile-contact"><a href="index.php#contact">CONTACT US</a></li>
+            
             </ul>
         </nav>
 
@@ -48,7 +48,7 @@ foreach ($_SESSION['cart'] as $entry) {
                         <span class="profile-name"><?= htmlspecialchars($je_user['username']) ?></span>
                     </button>
                     <div class="profile-dropdown" id="profileDropdown">
-                        <a href="dashboard.php">Dashboard</a>
+                        <a href="dashboard.php">Orders</a>
                         <a href="profile.php">Profile</a>
                         <a href="settings.php">Settings</a>
                         <hr>
