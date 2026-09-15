@@ -523,3 +523,157 @@ body.modal-open {
     }
 }
 
+.payment-proof-box {
+    margin-top: 16px;
+}
+
+.payment-proof-preview {
+    margin-top: 10px;
+    width: 100%;
+    max-width: 320px;
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #f8f8f8;
+}
+
+.payment-proof-preview img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: contain;
+}
+
+.payment-proof-view {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.payment-proof-none {
+    margin-top: 16px;
+    color: #777;
+    font-size: 14px;
+}
+
+
+.inquiries-section {
+    margin-top: 40px;
+}
+
+.inquiries-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+
+    h3 {
+        margin: 0;
+    }
+}
+
+.inquiries-count {
+    display: block;
+    margin-top: 5px;
+    font-size: 14px;
+    color: #777;
+}
+
+.unread-count {
+    padding: 7px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    background: #f3e5c8;
+}
+
+.inquiries-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.inquiry-card {
+    padding: 20px;
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 14px;
+}
+
+.inquiry-card.is-unread {
+    border-left: 4px solid #c9a66b;
+}
+
+.inquiry-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+
+    h4 {
+        margin: 0 0 6px;
+        font-size: 17px;
+    }
+}
+
+.inquiry-sender {
+    margin: 0;
+    color: #777;
+    font-size: 13px;
+}
+
+.inquiry-status {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.inquiry-status-unread {
+    background: #f3e5c8;
+}
+
+.inquiry-status-read {
+    background: #eeeeee;
+}
+
+.inquiry-message {
+    margin: 18px 0;
+    padding: 15px;
+    background: #fafafa;
+    border-radius: 10px;
+    line-height: 1.6;
+    white-space: normal;
+}
+
+.inquiry-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+.inquiry-date {
+    color: #888;
+    font-size: 12px;
+}
+
+.mark-read-btn,
+.mark-unread-btn {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.mark-read-btn {
+    background: #222;
+    color: #fff;
+}
+
+.mark-unread-btn {
+    background: #eee;
+    color: #333;
+}

@@ -1424,4 +1424,125 @@ a {
   font-size: 14px;
   text-align: center;
   color: red;
+}
+
+.notification-nav {
+  position: relative;
+}
+
+.notification-btn {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notification-icon {
+  font-size: 20px;
+}
+
+.notification-count {
+  position: absolute;
+  top: 2px;
+  right: 1px;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
+  border-radius: 20px;
+  background: #111;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notification-dropdown {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  width: 330px;
+  max-height: 420px;
+  background: #fff;
+  border: 1px solid #e8e1d8;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  display: none;
+  z-index: 1000;
+}
+
+.notification-dropdown.is-open {
+  display: block;
+}
+
+.notification-header {
+  padding: 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.notification-list {
+  max-height: 350px;
+  overflow-y: auto;
+}
+
+.notification-item {
+  display: block;
+  padding: 14px 16px;
+  color: #222;
+  text-decoration: none;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.notification-item:hover {
+  background: #faf8f4;
+}
+
+.notification-item.unread {
+  background: #f8f2e8;
+}
+
+.notification-message {
+  display: block;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.notification-item small {
+  display: block;
+  margin-top: 6px;
+  color: #888;
+  font-size: 11px;
+}
+
+.notification-empty {
+  padding: 25px 16px;
+  text-align: center;
+  color: #888;
+  font-size: 14px;
+}
+
+.contact-success,
+.contact-error {
+  padding: 14px 18px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.contact-success {
+  background: #edf7ed;
+  border: 1px solid #b9d8b9;
+}
+
+.contact-error {
+  background: #fff0f0;
+  border: 1px solid #e0b5b5;
 }/*# sourceMappingURL=shop.css.map */

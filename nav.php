@@ -5,8 +5,17 @@ $products = je_get_products();
 // Nav data (previously in includes/nav.php, now inlined below)
 $je_user = je_current_user();
 $je_cart_count = 0;
+
 foreach ($_SESSION['cart'] as $entry) {
     $je_cart_count += $entry['qty'];
+}
+
+$je_notifications = [];
+$je_unread_notifications = 0;
+
+if ($je_user) {
+    $je_notifications = je_get_notifications((int)$je_user['id']);
+    $je_unread_notifications = je_get_unread_notification_count((int)$je_user['id']);
 }
 ?>
 <!DOCTYPE html>
@@ -29,7 +38,7 @@ foreach ($_SESSION['cart'] as $entry) {
                 <li><a href="index.php#top">HOME</a></li>
                 <li><a href="index.php#about">ABOUT US</a></li>
                 <li><a href="index.php#app">OUR APP</a></li>
-                <li class="nav-mobile-contact"><a href="index.php#contact">CONTACT US</a></li>
+                <li><a href="index.php#app">CONTACT US</a></li>
             </ul>
         </nav>
 
@@ -38,6 +47,52 @@ foreach ($_SESSION['cart'] as $entry) {
                 <img src="./images/cart-plus-svgrepo-com.svg" alt="">
                 <span class="cart-count" id="cartCount"><?= (int)$je_cart_count ?></span>
             </a>
+              
+
+                <?php if ($je_user): ?>
+    <div class="notification-nav" id="notificationNav">
+        <button
+            type="button"
+            class="notification-btn"
+            id="notificationTrigger"
+            aria-label="Notifications"
+            aria-expanded="false"
+        >
+            <span class="notification-icon">🔔</span>
+            <?php if ($je_unread_notifications > 0): ?>
+                <span class="notification-count"><?= $je_unread_notifications ?></span>
+            <?php endif; ?>
+        </button>
+
+        <div class="notification-dropdown" id="notificationDropdown">
+            <div class="notification-header">
+                <strong>Notifications</strong>
+            </div>
+
+            <div class="notification-list">
+                <?php if (empty($je_notifications)): ?>
+                    <div class="notification-empty">
+                        No notifications yet.
+                    </div>
+                <?php else: ?>
+                    <?php foreach ($je_notifications as $notification): ?>
+                        <a
+                            href="dashboard.php"
+                            class="notification-item <?= $notification['is_read'] ? '' : 'unread' ?>"
+                        >
+                            <span class="notification-message">
+                                <?= htmlspecialchars($notification['message']) ?>
+                            </span>
+                            <small>
+                                <?= date('M j, Y g:i A', strtotime($notification['created_at'])) ?>
+                            </small>
+                        </a>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
 
             <?php if ($je_user): ?>
                 <div class="profile-nav" id="profileNav">
@@ -94,7 +149,27 @@ foreach ($_SESSION['cart'] as $entry) {
     window.JE_PRODUCTS = <?= json_encode(array_values($products), JSON_UNESCAPED_SLASHES) ?>;
     window.JE_LOGGED_IN = <?= je_is_logged_in() ? 'true' : 'false' ?>;
 </script>
-<script src="javascript.js"></script>
+<script src="/javascript.js"></script>
+<script>
+const notificationTrigger = document.getElementById('notificationTrigger');
+const notificationDropdown = document.getElementById('notificationDropdown');
+
+if (notificationTrigger && notificationDropdown) {
+    notificationTrigger.addEventListener('click', function (event) {
+        event.stopPropagation();
+
+        const isOpen = notificationDropdown.classList.toggle('is-open');
+        notificationTrigger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+
+    document.addEventListener('click', function (event) {
+        if (!event.target.closest('#notificationNav')) {
+            notificationDropdown.classList.remove('is-open');
+            notificationTrigger.setAttribute('aria-expanded', 'false');
+        }
+    });
+}
+</script>
 </body>
 </html>
     

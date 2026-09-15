@@ -4,6 +4,19 @@ require_once 'admin_functions.php';
 je_require_admin();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['message_id'])) {
+        $message_id = (int)$_POST['message_id'];
+        $message_status = trim($_POST['message_status'] ?? '');
+
+        if ($message_id > 0 && je_update_contact_status($message_id, $message_status)) {
+            header('Location: admin.php?message_updated=1');
+            exit;
+        }
+
+        header('Location: admin.php?message_updated=0');
+        exit;
+    }
+
     $order_id = (int)($_POST['order_id'] ?? 0);
     $status = trim($_POST['status'] ?? '');
 
@@ -15,9 +28,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header('Location: admin.php?updated=0');
     exit;
 }
-
 $orders = je_get_all_orders();
 $stats = je_get_order_stats();
+$contact_messages = je_get_contact_messages();
+$unread_contact_count = je_get_unread_contact_count();
 
 function admin_e($value): string {
     return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
@@ -119,6 +133,91 @@ function admin_e($value): string {
             </div>
         <?php endif; ?>
     </section>
+
+        <section class="inquiries-section">
+    <div class="inquiries-section-header">
+        <div>
+            <h3>Customer Inquiries</h3>
+            <span class="inquiries-count">
+                <?= count($contact_messages) ?>
+                <?= count($contact_messages) === 1 ? 'inquiry' : 'inquiries' ?>
+            </span>
+        </div>
+
+        <?php if ($unread_contact_count > 0): ?>
+            <span class="unread-count">
+                <?= $unread_contact_count ?> unread
+            </span>
+        <?php endif; ?>
+    </div>
+
+    <?php if (isset($_GET['message_updated'])): ?>
+        <?php if ($_GET['message_updated'] === '1'): ?>
+            <div class="update-message">
+                Inquiry status updated successfully.
+            </div>
+        <?php else: ?>
+            <div class="update-message error">
+                Unable to update the inquiry.
+            </div>
+        <?php endif; ?>
+    <?php endif; ?>
+
+    <?php if (empty($contact_messages)): ?>
+        <div class="empty-inquiries">
+            <p>No customer inquiries yet.</p>
+        </div>
+    <?php else: ?>
+        <div class="inquiries-list">
+            <?php foreach ($contact_messages as $message): ?>
+                <div class="inquiry-card <?= $message['status'] === 'Unread' ? 'is-unread' : '' ?>">
+                    <div class="inquiry-header">
+                        <div>
+                            <h4><?= admin_e($message['subject']) ?></h4>
+                            <p class="inquiry-sender">
+                                <?= admin_e($message['name']) ?>
+                                ·
+                                <?= admin_e($message['email']) ?>
+                            </p>
+                        </div>
+
+                        <span class="inquiry-status inquiry-status-<?= strtolower($message['status']) ?>">
+                            <?= admin_e($message['status']) ?>
+                        </span>
+                    </div>
+
+                    <div class="inquiry-message">
+                        <?= nl2br(admin_e($message['message'])) ?>
+                    </div>
+
+                    <div class="inquiry-footer">
+                        <span class="inquiry-date">
+                            <?= date('M j, Y g:i A', strtotime($message['created_at'])) ?>
+                        </span>
+
+                        <?php if ($message['status'] === 'Unread'): ?>
+                            <form method="POST" action="admin.php">
+                                <input type="hidden" name="message_id" value="<?= (int)$message['id'] ?>">
+                                <input type="hidden" name="message_status" value="Read">
+                                <button type="submit" class="mark-read-btn">
+                                    Mark as Read
+                                </button>
+                            </form>
+                        <?php else: ?>
+                            <form method="POST" action="admin.php">
+                                <input type="hidden" name="message_id" value="<?= (int)$message['id'] ?>">
+                                <input type="hidden" name="message_status" value="Unread">
+                                <button type="submit" class="mark-unread-btn">
+                                    Mark as Unread
+                                </button>
+                            </form>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
+</section>
 </main>
 
 <div class="order-modal-overlay" id="orderModalOverlay">
@@ -159,11 +258,21 @@ function admin_e($value): string {
             </div>
         </div>
 
-        <div class="detail-section">
+                <div class="detail-section">
             <h3 class="detail-section-title">Payment</h3>
             <div class="detail-box">
                 <span class="detail-label">Payment Method</span>
                 <span class="detail-value" id="modalPaymentMethod"></span>
+            </div>
+            <div class="payment-proof-box" id="paymentProofBox">
+                <span class="detail-label">Proof of Payment</span>
+                <div class="payment-proof-preview">
+                    <img id="modalPaymentProof" src="" alt="Payment Proof">
+                </div>
+                <a id="paymentProofLink" href="#" target="_blank" class="payment-proof-view">View Full Image</a>
+            </div>
+            <div class="payment-proof-none" id="paymentProofNone">
+                No payment screenshot uploaded.
             </div>
         </div>
 
@@ -196,6 +305,10 @@ const modalCustomerAddress = document.getElementById('modalCustomerAddress');
 const modalOrderItems = document.getElementById('modalOrderItems');
 const modalOrderTotal = document.getElementById('modalOrderTotal');
 const modalPaymentMethod = document.getElementById('modalPaymentMethod');
+const modalPaymentProof = document.getElementById('modalPaymentProof');
+const paymentProofBox = document.getElementById('paymentProofBox');
+const paymentProofLink = document.getElementById('paymentProofLink');
+const paymentProofNone = document.getElementById('paymentProofNone');
 const modalOrderId = document.getElementById('modalOrderId');
 const modalStatus = document.getElementById('modalStatus');
 
@@ -209,7 +322,24 @@ function openOrderModal(orderId) {
     modalCustomerEmail.textContent = order.email || '—';
     modalCustomerAddress.textContent = order.address || '—';
     modalPaymentMethod.textContent = order.payment_method || '—';
-    modalOrderId.value = order.id;
+
+        if (order.payment_proof) {
+            const proofPath = `uploads/payment_proofs/${order.payment_proof}`;
+
+            modalPaymentProof.src = proofPath;
+            paymentProofLink.href = proofPath;
+
+            paymentProofBox.style.display = 'block';
+            paymentProofNone.style.display = 'none';
+        } else {
+            modalPaymentProof.src = '';
+            paymentProofLink.href = '#';
+
+            paymentProofBox.style.display = 'none';
+            paymentProofNone.style.display = 'block';
+        }
+
+modalOrderId.value = order.id;
     modalStatus.value = order.status;
     modalOrderItems.innerHTML = '';
 
@@ -285,6 +415,6 @@ document.addEventListener('keydown', event => {
 });
 
 </script>
-<script src="/javascript.js"></script>
+<script src="javascript.js"></script>
 </body>
 </html>

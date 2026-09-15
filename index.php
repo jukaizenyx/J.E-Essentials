@@ -254,25 +254,39 @@
 
             <div class="contact-inner">
                <div class="contact-form-wrap">
-                <form class="contact-form" action="#" method="post">
+                <?php if (isset($_GET['contact_success']) && $_GET['contact_success'] === '1'): ?>
+                    <div class="contact-success">
+                        Your message has been sent successfully. Thank you for reaching out!
+                    </div>
+                <?php elseif (isset($_GET['contact_error'])): ?>
+                    <div class="contact-error">
+                        Please check your information and try again.
+                    </div>
+                <?php endif; ?>
+                <form class="contact-form" action="contact_process.php" method="post">
                     <div class="form-row">
                         <label for="full-name">Full name</label>
                         <input type="text" id="full-name" name="full_name" required>
                     </div>
+
                     <div class="form-row">
                         <label for="email">Email Address</label>
                         <input type="email" id="email" name="email" required>
                     </div>
+
                     <div class="form-row">
                         <label for="subject">Subject</label>
-                        <input type="text" id="subject" name="subject">
+                        <input type="text" id="subject" name="subject" required>
                     </div>
+
                     <div class="form-row">
                         <label for="message">Message</label>
                         <textarea id="message" name="message" rows="5" required></textarea>
                     </div>
+
                     <button type="submit" class="submit-btn">SUBMIT</button>
-                </form>
+                    </form>
+
                 </div>
             
 

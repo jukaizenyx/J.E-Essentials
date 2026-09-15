@@ -169,6 +169,6 @@ function e($value): string {
    window.JE_PRODUCTS = <?= json_encode(array_values($products), JSON_UNESCAPED_SLASHES) ?>;
 window.JE_LOGGED_IN = <?= je_is_logged_in() ? 'true' : 'false' ?>;
 </script>
-<script src="/javascript.js"></script>
+<script src="javascript.js"></script>
 </body>
 </html>

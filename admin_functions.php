@@ -1,17 +1,9 @@
 <?php
-
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
 require_once './database/config.php';
-
-
-/*
-|--------------------------------------------------------------------------
-| CHECK IF CURRENT USER IS ADMIN
-|--------------------------------------------------------------------------
-*/
 
 function je_is_admin(): bool
 {
@@ -20,8 +12,7 @@ function je_is_admin(): bool
     }
 
     global $conn;
-
-    $user_id = (int) $_SESSION['user_id'];
+    $user_id = (int)$_SESSION['user_id'];
 
     $stmt = $conn->prepare("
         SELECT is_admin
@@ -39,18 +30,10 @@ function je_is_admin(): bool
 
     $result = $stmt->get_result();
     $user = $result->fetch_assoc();
-
     $stmt->close();
 
-    return $user && (int) $user['is_admin'] === 1;
+    return $user && (int)$user['is_admin'] === 1;
 }
-
-
-/*
-|--------------------------------------------------------------------------
-| REQUIRE ADMIN ACCESS
-|--------------------------------------------------------------------------
-*/
 
 function je_require_admin(): void
 {
@@ -60,17 +43,9 @@ function je_require_admin(): void
     }
 }
 
-
-/*
-|--------------------------------------------------------------------------
-| GET ALL ORDERS
-|--------------------------------------------------------------------------
-*/
-
 function je_get_all_orders(): array
 {
     global $conn;
-
     $orders = [];
 
     $stmt = $conn->prepare("
@@ -82,6 +57,7 @@ function je_get_all_orders(): array
             phone,
             address,
             payment_method,
+            payment_proof,
             status,
             total,
             created_at,
@@ -95,11 +71,9 @@ function je_get_all_orders(): array
     }
 
     $stmt->execute();
-
     $result = $stmt->get_result();
 
     while ($order = $result->fetch_assoc()) {
-
         $order['items'] = [];
 
         $item_stmt = $conn->prepare("
@@ -116,12 +90,7 @@ function je_get_all_orders(): array
         ");
 
         if ($item_stmt) {
-
-            $item_stmt->bind_param(
-                "i",
-                $order['id']
-            );
-
+            $item_stmt->bind_param("i", $order['id']);
             $item_stmt->execute();
 
             $item_result = $item_stmt->get_result();
@@ -141,13 +110,6 @@ function je_get_all_orders(): array
     return $orders;
 }
 
-
-/*
-|--------------------------------------------------------------------------
-| GET ONE ORDER
-|--------------------------------------------------------------------------
-*/
-
 function je_get_order(int $order_id): ?array
 {
     global $conn;
@@ -161,6 +123,7 @@ function je_get_order(int $order_id): ?array
             phone,
             address,
             payment_method,
+            payment_proof,
             status,
             total,
             created_at,
@@ -174,28 +137,16 @@ function je_get_order(int $order_id): ?array
         return null;
     }
 
-    $stmt->bind_param(
-        "i",
-        $order_id
-    );
-
+    $stmt->bind_param("i", $order_id);
     $stmt->execute();
 
     $result = $stmt->get_result();
     $order = $result->fetch_assoc();
-
     $stmt->close();
 
     if (!$order) {
         return null;
     }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | GET ORDER ITEMS
-    |--------------------------------------------------------------------------
-    */
 
     $order['items'] = [];
 
@@ -213,12 +164,7 @@ function je_get_order(int $order_id): ?array
     ");
 
     if ($item_stmt) {
-
-        $item_stmt->bind_param(
-            "i",
-            $order_id
-        );
-
+        $item_stmt->bind_param("i", $order_id);
         $item_stmt->execute();
 
         $item_result = $item_stmt->get_result();
@@ -233,17 +179,8 @@ function je_get_order(int $order_id): ?array
     return $order;
 }
 
-
-/*
-|--------------------------------------------------------------------------
-| UPDATE ORDER STATUS
-|--------------------------------------------------------------------------
-*/
-
-function je_update_order_status(
-    int $order_id,
-    string $status
-): bool {
+function je_update_order_status(int $order_id, string $status): bool
+{
     global $conn;
 
     $allowed_statuses = [
@@ -259,11 +196,38 @@ function je_update_order_status(
         return false;
     }
 
+    $check_stmt = $conn->prepare("
+        SELECT user_id, status
+        FROM orders
+        WHERE id = ?
+        LIMIT 1
+    ");
+
+    if (!$check_stmt) {
+        return false;
+    }
+
+    $check_stmt->bind_param("i", $order_id);
+    $check_stmt->execute();
+
+    $result = $check_stmt->get_result();
+    $order = $result->fetch_assoc();
+    $check_stmt->close();
+
+    if (!$order) {
+        return false;
+    }
+
+    $old_status = $order['status'];
+    $user_id = (int)$order['user_id'];
+
+    if ($old_status === $status) {
+        return true;
+    }
+
     $stmt = $conn->prepare("
         UPDATE orders
-        SET
-            status = ?,
-            updated_at = NOW()
+        SET status = ?, updated_at = NOW()
         WHERE id = ?
     ");
 
@@ -272,32 +236,51 @@ function je_update_order_status(
     }
 
     $stmt->bind_param("si", $status, $order_id);
-    $success = $stmt->execute();
+
+    if (!$stmt->execute()) {
+        $stmt->close();
+        return false;
+    }
 
     $stmt->close();
 
-    return $success;
-}
+    $message = "Your order #{$order_id} has been updated to {$status}.";
 
-/*
-|--------------------------------------------------------------------------
-| ORDER STATISTICS
-|--------------------------------------------------------------------------
-*/
+    $notification_stmt = $conn->prepare("
+        INSERT INTO notifications
+        (user_id, order_id, message)
+        VALUES (?, ?, ?)
+    ");
+
+    if ($notification_stmt) {
+        $notification_stmt->bind_param(
+            "iis",
+            $user_id,
+            $order_id,
+            $message
+        );
+
+        $notification_stmt->execute();
+        $notification_stmt->close();
+    }
+
+    return true;
+}
 
 function je_get_order_stats(): array
 {
     global $conn;
 
     $stats = [
-    'total' => 0,
-    'pending' => 0,
-    'approved' => 0,
-    'in transit' => 0,
-    'out for delivery' => 0,
-    'completed' => 0,
-    'rejected' => 0
-];
+        'total' => 0,
+        'pending' => 0,
+        'approved' => 0,
+        'in transit' => 0,
+        'out for delivery' => 0,
+        'completed' => 0,
+        'rejected' => 0,
+        'cancelled' => 0
+    ];
 
     $result = $conn->query("
         SELECT
@@ -312,9 +295,8 @@ function je_get_order_stats(): array
     }
 
     while ($row = $result->fetch_assoc()) {
-
         $status = strtolower($row['status']);
-        $count = (int) $row['total'];
+        $count = (int)$row['total'];
 
         $stats['total'] += $count;
 
@@ -324,4 +306,90 @@ function je_get_order_stats(): array
     }
 
     return $stats;
+}
+function je_get_contact_messages(): array
+{
+    global $conn;
+    $messages = [];
+
+    $stmt = $conn->prepare("
+        SELECT
+            id,
+            name,
+            email,
+            subject,
+            message,
+            status,
+            created_at
+        FROM contact_messages
+        ORDER BY created_at DESC
+    ");
+
+    if (!$stmt) {
+        return [];
+    }
+
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    while ($message = $result->fetch_assoc()) {
+        $messages[] = $message;
+    }
+
+    $stmt->close();
+
+    return $messages;
+}
+
+function je_get_unread_contact_count(): int
+{
+    global $conn;
+
+    $stmt = $conn->prepare("
+        SELECT COUNT(*) AS total
+        FROM contact_messages
+        WHERE status = 'Unread'
+    ");
+
+    if (!$stmt) {
+        return 0;
+    }
+
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+
+    $stmt->close();
+
+    return (int)($row['total'] ?? 0);
+}
+
+function je_update_contact_status(int $message_id, string $status): bool
+{
+    global $conn;
+
+    $allowed_statuses = ['Unread', 'Read'];
+
+    if (!in_array($status, $allowed_statuses, true)) {
+        return false;
+    }
+
+    $stmt = $conn->prepare("
+        UPDATE contact_messages
+        SET status = ?
+        WHERE id = ?
+    ");
+
+    if (!$stmt) {
+        return false;
+    }
+
+    $stmt->bind_param("si", $status, $message_id);
+
+    $success = $stmt->execute();
+
+    $stmt->close();
+
+    return $success;
 }
