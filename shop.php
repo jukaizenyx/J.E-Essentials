@@ -169,7 +169,6 @@ foreach ($_SESSION['cart'] as $entry) {
             <ul class="social-list" >
                 <li><a href="#top" ><img src="images/insta-icon.svg" alt=""></a></li>
                 <li><a href="#top" ><img src="images/fb-icon.svg" alt=""></a></li>
-                <li><a href="#top" ><img src="images/yt1.svg" alt=""></a></li>
                 <li><a href="#top"><img src="images/x-icon.svg" alt=""></a></li>
             </ul>
         </div>

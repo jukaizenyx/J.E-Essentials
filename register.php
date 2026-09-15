@@ -108,18 +108,34 @@ unset($_SESSION['register_errors'], $_SESSION['old_input']);
            placeholder="Country, Province/State, City, Barangay, Street, Blk No./House No." required> <br>
 
     <div class="pass-info">
-        <label for="password">Password: </label>
-        <?php if (isset($errors['password'])): ?>
-            <p style="color:red;"><?= htmlspecialchars($errors['password']); ?></p>
-        <?php endif; ?>
-        <input type="password" name="password" id="password" placeholder="Enter password" required> <br>
-
-        <label for="confirm_password">Confirm Password: </label>
-        <?php if (isset($errors['confirm_password'])): ?>
-            <p style="color:red;"><?= htmlspecialchars($errors['confirm_password']); ?></p>
-        <?php endif; ?>
-        <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm your password" required> <br>
+    <label for="password">Password: </label>
+    <?php if (isset($errors['password'])): ?>
+        <p style="color:red;"><?= htmlspecialchars($errors['password']); ?></p>
+    <?php endif; ?>
+    <div class="password-field">
+        <input type="password" name="password" id="password" placeholder="Enter password" required>
+        <button type="button" class="password-toggle" data-target="password" aria-label="Show password">
+            <svg viewBox="0 0 24 24" fill="none">
+                <path d="M2 12C2 12 5.5 5 12 5C18.5 5 22 12 22 12C22 12 18.5 19 12 19C5.5 19 2 12 2 12Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8"/>
+            </svg>
+        </button>
     </div>
+
+    <label for="confirm_password">Confirm Password: </label>
+    <?php if (isset($errors['confirm_password'])): ?>
+        <p style="color:red;"><?= htmlspecialchars($errors['confirm_password']); ?></p>
+    <?php endif; ?>
+    <div class="password-field">
+        <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm your password" required>
+        <button type="button" class="password-toggle" data-target="confirm_password" aria-label="Show password">
+            <svg viewBox="0 0 24 24" fill="none">
+                <path d="M2 12C2 12 5.5 5 12 5C18.5 5 22 12 22 12C22 12 18.5 19 12 19C5.5 19 2 12 2 12Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8"/>
+            </svg>
+        </button>
+    </div>
+</div>
 
     <label for="phone">Phone: </label>
     <?php if (isset($errors['phone'])): ?>
@@ -127,7 +143,14 @@ unset($_SESSION['register_errors'], $_SESSION['old_input']);
     <?php endif; ?>
     <input type="tel" name="phone" id="phone"
            value="<?= htmlspecialchars($old['phone'] ?? ''); ?>"
-           placeholder="Enter phone number" required> <br>
+           placeholder="Enter phone number" required> <br> 
+
+           <div class="login-options">
+    <label class="login-checkbox">
+        <input type="checkbox" name="terms" required>
+        <span>I have read and agree to the Terms and Conditions.</span>
+    </label>
+</div>
 
     <input type="submit" value="Register" name="register">
 
@@ -154,6 +177,34 @@ unset($_SESSION['register_errors'], $_SESSION['old_input']);
 <?php unset($_SESSION['register_success']); ?>
 <?php endif; ?>
 
+<script>
+ document.querySelectorAll('.password-toggle').forEach(button => {
+    button.addEventListener('click', () => {
+        const targetId = button.dataset.target;
+        const passwordInput = document.getElementById(targetId);
+        const svg = button.querySelector('svg');
+
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            button.setAttribute('aria-label', 'Hide password');
+
+            svg.innerHTML = `
+                <path d="M3 3L21 21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                <path d="M10.5 5.2C11 5.1 11.5 5 12 5C18.5 5 22 12 22 12C22 12 20.7 14.6 18.4 16.7M6.2 6.2C3.5 8.3 2 12 2 12C2 12 5.5 19 12 19C13.6 19 15.1 18.6 16.4 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M9.9 9.9C9.4 10.4 9.1 11.2 9.1 12C9.1 13.6 10.4 14.9 12 14.9C12.8 14.9 13.6 14.6 14.1 14.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            `;
+        } else {
+            passwordInput.type = 'password';
+            button.setAttribute('aria-label', 'Show password');
+
+            svg.innerHTML = `
+                <path d="M2 12C2 12 5.5 5 12 5C18.5 5 22 12 22 12C22 12 18.5 19 12 19C5.5 19 2 12 2 12Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8"/>
+            `;
+        }
+    });
+});
+</script>
 <script src="javascript.js"></script>
 </body>
 </html>

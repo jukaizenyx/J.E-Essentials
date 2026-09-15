@@ -114,7 +114,7 @@
         border: 2px solid transparent;
         border-radius: 100px; 
         margin-top: -5px;
-        padding: 0 1.5%;
+        padding: 0 1.2%;
          background: 
          linear-gradient(var(--color-cream-light), var(--color-cream-light)) padding-box,
          linear-gradient(90deg, rgba(197, 160, 89, 1) 9%, rgba(236, 230, 217, 1) 33%, rgba(197, 160, 89, 1) 64%, rgba(140, 109, 52, 1) 93%, rgba(197, 160, 89, 1) 100%) border-box;
@@ -140,11 +140,11 @@
         display: inline-flex;
         margin-right:10px;
         text-decoration: none;
-        font-family: var(--font-accent);
+        font-family: var(--font-body);
         color: var(--color-black);
         justify-content: center;
         align-items: center;
-        margin-top: 5px;
+        padding: 7px 0;
        
     }
  
@@ -355,3 +355,92 @@
 }
 
 //RESPONSIVE-NAV//
+
+
+.login-error {
+    margin-bottom: 20px;
+    padding: 12px 16px;
+    background: #fff0f0;
+    border: 1px solid #e0b5b5;
+    border-radius: 8px;
+    color: #a33a3a;
+    font-size: 14px;
+    text-align: center;
+    font-family: var(--font-body);
+}
+
+
+.login-options {
+    width: 100%;
+    margin: 15px 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.login-checkbox {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: flex-start;
+    justify-content: flex-start !important;
+    gap: 8px;
+    width: 100%;
+    margin: 0 !important;
+    padding: 0;
+    font-size: 13px;
+    line-height: 1.4;
+    color: #555;
+    cursor: pointer;
+}
+
+.login-checkbox input[type="checkbox"] {
+    width: 15px !important;
+    height: 15px !important;
+    min-width: 15px;
+    margin: 2px 0 0 !important;
+    padding: 0 !important;
+    cursor: pointer;
+    appearance: auto;
+}
+
+.login-checkbox span {
+    display: block;
+    margin: 0;
+}
+
+.password-field {
+    position: relative;
+    width: 100%;
+}
+
+.password-field input {
+    width: 100%;
+    padding-right: 45px;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-70%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border: none;
+    background: none;
+    color: #777;
+    cursor: pointer;
+}
+
+.password-toggle:hover {
+    color: #222;
+}
+
+.eye-icon {
+    
+    width: 18px;
+    height: 18px;
+}

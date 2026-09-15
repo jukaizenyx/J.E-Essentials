@@ -153,7 +153,7 @@
     img {
         width: 12px;
         height: 12px;
-        margin-bottom: 5px;
+     
     }
 
     &:hover {
@@ -173,11 +173,12 @@
     display: flex;
     margin-right: 10px;
     text-decoration: none;
-    font-family: var(--font-accent);
+    font-family: var(--font-body);
     color: var(--color-black);
     justify-content: center;
     align-items: center;
     margin-top: 2px;
+    padding: 8px 0;
 }
 
 .nav-toggle {

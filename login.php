@@ -31,7 +31,7 @@ unset($_SESSION['login_error']);
          
         <div class ="cta-nav">
     
-        <a href="#contact" class="cta-btn-small">CONTACT US</a>
+        <a href="index.php#contact" class="cta-btn-small">CONTACT US</a>
         <img src="images/arrow.svg" alt="">
         </div>
         <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
@@ -43,13 +43,20 @@ unset($_SESSION['login_error']);
 </header>
 
 
-
+    
 
     <main class="main-login">
     <header class="login-heading">
         <h1>Welcome to J.E Essentials Shop!</h1>
         <p>Please log in to continue</p>
     </header>
+             
+              <?php if ($login_error): ?>
+    <div class="login-error">
+        <?= htmlspecialchars($login_error) ?>
+    </div>
+<?php endif; ?>
+
 
     <form action="process_login.php" method="post">
 
@@ -58,8 +65,23 @@ unset($_SESSION['login_error']);
         <input type="text" name="login_id" id="login_id" placeholder="Enter username or email" required> <br>
 
         <!-- Password -->
-        <label for="password">Password: </label>
-        <input type="password" name="password" id="password" placeholder="Enter password" required> <br>
+        <div class="password-field">
+    <input type="password" name="password" id="password" placeholder="Enter password" required>
+    <button type="button" class="password-toggle" id="passwordToggle" aria-label="Show password">
+        <svg class="eye-icon" id="eyeIcon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 12C2 12 5.5 5 12 5C18.5 5 22 12 22 12C22 12 18.5 19 12 19C5.5 19 2 12 2 12Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8"/>
+        </svg>
+    </button>
+</div>
+          
+        <div class="login-options">
+
+    <label class="login-checkbox">
+        <input type="checkbox" name="remember">
+        <span>Keep me signed in</span>
+    </label>
+</div>
 
         <!-- Login Button -->
         <input type="submit" value="Login" name="login">
@@ -71,6 +93,32 @@ unset($_SESSION['login_error']);
     </div>
 
     </main>
+    <script>
+        const passwordInput = document.getElementById('password');
+const passwordToggle = document.getElementById('passwordToggle');
+const eyeIcon = document.getElementById('eyeIcon');
+
+if (passwordInput && passwordToggle && eyeIcon) {
+    passwordToggle.addEventListener('click', () => {
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            passwordToggle.setAttribute('aria-label', 'Hide password');
+            eyeIcon.innerHTML = `
+                <path d="M3 3L21 21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                <path d="M10.5 5.2C11 5.1 11.5 5 12 5C18.5 5 22 12 22 12C22 12 20.7 14.6 18.4 16.7M6.2 6.2C3.5 8.3 2 12 2 12C2 12 5.5 19 12 19C13.6 19 15.1 18.6 16.4 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M9.9 9.9C9.4 10.4 9.1 11.2 9.1 12C9.1 13.6 10.4 14.9 12 14.9C12.8 14.9 13.6 14.6 14.1 14.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            `;
+        } else {
+            passwordInput.type = 'password';
+            passwordToggle.setAttribute('aria-label', 'Show password');
+            eyeIcon.innerHTML = `
+                <path d="M2 12C2 12 5.5 5 12 5C18.5 5 22 12 22 12C22 12 18.5 19 12 19C5.5 19 2 12 2 12Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8"/>
+            `;
+        }
+    });
+}
+    </script>
     <script src="javascript.js"></script>
 </body>
 </html>

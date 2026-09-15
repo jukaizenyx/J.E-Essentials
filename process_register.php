@@ -6,6 +6,11 @@ require 'function.php';
 require 'validation.php';
 
 if (isset($_POST['register'])) {
+    if (!isset($_POST['terms'])) {
+    $_SESSION['login_error'] = 'Please agree to the Terms and Conditions.';
+    header("Location: login.php");
+    exit;
+}
 
     $errors = validateRegistration($_POST);
 

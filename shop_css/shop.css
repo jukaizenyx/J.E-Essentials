@@ -224,15 +224,19 @@ a {
 
 .account-link {
   text-decoration: none;
-  font-size: 0.95rem;
-  padding: 8px 18px;
-  border: 1px solid var(--color-charcoal);
+  font-size: 0.9rem;
+  padding: 10px 18px;
+  border: 2px solid transparent;
   border-radius: 100px;
-  transition: background 0.2s ease, color 0.2s ease;
+  background: linear-gradient(var(--color-cream-light), var(--color-cream-light)) padding-box, var(--color-gradient) border-box;
+  font-family: var(--font-body);
 }
 .account-link:hover {
-  background: var(--color-charcoal);
-  color: var(--color-white);
+  background: linear-gradient(90deg, rgb(197, 160, 89) 9%, rgb(236, 230, 217) 33%, rgb(197, 160, 89) 64%, rgb(140, 109, 52) 93%, rgb(197, 160, 89) 100%) border-box;
+  color: white;
+}
+.account-link:hover img {
+  filter: brightness(0) invert(1);
 }
 @media (max-width: 900px) {
   .account-link {
@@ -261,9 +265,6 @@ a {
 }
 .cta-nav:hover a {
   color: white;
-}
-.cta-nav:hover img {
-  filter: brightness(0) invert(1);
 }
 @media (max-width: 900px) {
   .cta-nav {

@@ -127,7 +127,6 @@
 .cta-nav img {
   width: 12px;
   height: 12px;
-  margin-bottom: 5px;
 }
 .cta-nav:hover {
   background: linear-gradient(90deg, rgb(197, 160, 89) 9%, rgb(236, 230, 217) 33%, rgb(197, 160, 89) 64%, rgb(140, 109, 52) 93%, rgb(197, 160, 89) 100%) border-box;
@@ -143,11 +142,12 @@
   display: flex;
   margin-right: 10px;
   text-decoration: none;
-  font-family: var(--font-accent);
+  font-family: var(--font-body);
   color: var(--color-black);
   justify-content: center;
   align-items: center;
   margin-top: 2px;
+  padding: 8px 0;
 }
 
 .nav-toggle {

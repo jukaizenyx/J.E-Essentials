@@ -6,6 +6,7 @@ require 'function.php';
 
 if (isset($_POST['login'])) {
 
+
     $login_id = trim($_POST['login_id']);
     $password = $_POST['password'];
 
