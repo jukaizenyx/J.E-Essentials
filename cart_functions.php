@@ -133,7 +133,120 @@ function je_is_logged_in(): bool
 {
     return !empty($_SESSION['logged_in']);
 }
+function je_restore_login(): void
+{
+    if (je_is_logged_in() || empty($_COOKIE['je_remember_token'])) {
+        return;
+    }
 
+    global $conn;
+
+    $token_hash = hash('sha256', $_COOKIE['je_remember_token']);
+
+    $stmt = $conn->prepare("
+        SELECT user_id
+        FROM login_tokens
+        WHERE token_hash = ?
+        AND expires_at > NOW()
+        LIMIT 1
+    ");
+
+    if (!$stmt) {
+        return;
+    }
+
+    $stmt->bind_param("s", $token_hash);
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+    $token = $result->fetch_assoc();
+    $stmt->close();
+
+    if (!$token) {
+        setcookie('je_remember_token', '', time() - 3600, '/');
+        return;
+    }
+
+    $user_id = (int)$token['user_id'];
+
+    $stmt = $conn->prepare("
+        SELECT id, username, is_admin
+        FROM users
+        WHERE id = ?
+        LIMIT 1
+    ");
+
+    if (!$stmt) {
+        return;
+    }
+
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+
+    $user = $stmt->get_result()->fetch_assoc();
+    $stmt->close();
+
+    if (!$user) {
+        return;
+    }
+
+    session_regenerate_id(true);
+
+    $_SESSION['user_id'] = $user['id'];
+    $_SESSION['username'] = $user['username'];
+    $_SESSION['logged_in'] = true;
+}
+
+function je_create_remember_token(int $user_id): void
+{
+    global $conn;
+
+    $token = bin2hex(random_bytes(32));
+    $token_hash = hash('sha256', $token);
+    $expires_at = date('Y-m-d H:i:s', time() + (30 * 24 * 60 * 60));
+
+    $stmt = $conn->prepare("
+        INSERT INTO login_tokens (user_id, token_hash, expires_at)
+        VALUES (?, ?, ?)
+    ");
+
+    if (!$stmt) {
+        return;
+    }
+
+    $stmt->bind_param("iss", $user_id, $token_hash, $expires_at);
+    $stmt->execute();
+    $stmt->close();
+
+    setcookie('je_remember_token', $token, [
+        'expires' => time() + (30 * 24 * 60 * 60),
+        'path' => '/',
+        'httponly' => true,
+        'samesite' => 'Lax'
+    ]);
+}
+
+function je_delete_remember_token(): void
+{
+    global $conn;
+
+    if (!empty($_COOKIE['je_remember_token'])) {
+        $token_hash = hash('sha256', $_COOKIE['je_remember_token']);
+
+        $stmt = $conn->prepare("
+            DELETE FROM login_tokens
+            WHERE token_hash = ?
+        ");
+
+        if ($stmt) {
+            $stmt->bind_param("s", $token_hash);
+            $stmt->execute();
+            $stmt->close();
+        }
+    }
+
+    setcookie('je_remember_token', '', time() - 3600, '/');
+}
 function je_current_user(): ?array
 {
     if (!je_is_logged_in()) {

@@ -1,5 +1,6 @@
 <?php
 require_once 'cart_functions.php';
+je_restore_login();
 $products = je_get_products();
 
 // Nav data (previously in includes/nav.php, now inlined below)
@@ -109,7 +110,7 @@ if ($je_user) {
                     </div>
                 </div>
             <?php else: ?>
-                <a href="login.php?redirect=<?= urlencode(basename($_SERVER['PHP_SELF'])) ?>" class="account-link">Log In</a>
+                <a href="login.php?redirect=<?= urlencode(basename($_SERVER['PHP_SELF'])) ?>" class="account-link">LOG IN</a>
             <?php endif; ?>
 
             <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">

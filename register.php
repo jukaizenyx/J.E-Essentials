@@ -10,6 +10,7 @@ unset($_SESSION['register_errors'], $_SESSION['old_input']);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./register_css/register.css">
+    <link rel="stylesheet" href="../J.E Essentials/style_css/style.css">
     <title>J.E Essential Shop | Register Now</title>
 </head>
 <body>
@@ -27,16 +28,20 @@ unset($_SESSION['register_errors'], $_SESSION['old_input']);
 
         <nav class="main-nav" id="mainNav">
             <ul>
-                <li><a href="#top">HOME</a></li>
-                <li><a href="#about">ABOUT US</a></li>
-                <li><a href="#featured">FEATURED</a></li>
-                <li><a href="#app">OUR APP</a></li>
+                <li><a href="index.php#top">HOME</a></li>
+                <li><a href="index.php#about">ABOUT US</a></li>
+                <li><a href="index.php#featured">FEATURED</a></li>
+                <li><a href="index.php#app">OUR APP</a></li>
+                <li><a href="index.php#contact">CONTACT US</a></li>
+                <li class="mobile-shop"><a class="mobile-shop" href="shop.php">SHOP NOW</a></li>
             </ul>
         </nav>
+
+    
          
         <div class ="cta-nav">
     
-        <a href="#contact" class="cta-btn-small">CONTACT US</a>
+        <a href="shop.php" class="cta-btn-small">SHOP NOW</a>
         <img src="images/arrow.svg" alt="">
         </div>
         <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">

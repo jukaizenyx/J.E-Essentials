@@ -1,5 +1,6 @@
 <?php
 require_once 'cart_functions.php';
+je_restore_login();
 $products = je_get_products();
 
 // Nav data (previously in includes/nav.php, now inlined below)

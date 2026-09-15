@@ -1,5 +1,6 @@
 <?php
 require_once 'cart_functions.php';
+je_restore_login();
 header('Content-Type: application/json');
 
 if (!je_is_logged_in()) {

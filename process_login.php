@@ -3,6 +3,7 @@
 session_start();
 require 'database/config.php';
 require 'function.php';
+require_once 'cart_functions.php';
 
 if (isset($_POST['login'])) {
 
@@ -36,6 +37,8 @@ if (isset($_POST['login'])) {
     $_SESSION['user_id']  = $user['id'];
     $_SESSION['username'] = $user['username'];
     $_SESSION['logged_in'] = true;
+    je_create_remember_token((int)$user['id']);
+    
     if ((int)$user['is_admin'] === 1) {
     header('Location: admin.php');
     exit;

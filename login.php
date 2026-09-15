@@ -10,6 +10,7 @@ unset($_SESSION['login_error']);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../J.E Essentials/login_css/login.css">
+    <link rel="stylesheet" href="../J.E Essentials/style_css/style.css">
     <title>Login</title>
 </head>
 <body>
@@ -22,16 +23,20 @@ unset($_SESSION['login_error']);
 
         <nav class="main-nav" id="mainNav">
             <ul>
-                <li><a href="index.php">HOME</a></li>
+                <li><a href="index.php#top">HOME</a></li>
                 <li><a href="index.php#about">ABOUT US</a></li>
                 <li><a href="index.php#featured">FEATURED</a></li>
                 <li><a href="index.php#app">OUR APP</a></li>
+                <li><a href="#contact">CONTACT US</a></li>
+                <li class="mobile-shop"><a class="mobile-shop" href="shop.php">SHOP NOW</a></li>
             </ul>
         </nav>
+
+    
          
         <div class ="cta-nav">
     
-        <a href="index.php#contact" class="cta-btn-small">CONTACT US</a>
+        <a href="shop.php" class="cta-btn-small">SHOP NOW</a>
         <img src="images/arrow.svg" alt="">
         </div>
         <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">

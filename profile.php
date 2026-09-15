@@ -1,5 +1,6 @@
 <?php
 require_once 'cart_functions.php';
+je_restore_login();
 require_once './database/config.php';
 
 if (!je_is_logged_in()) {

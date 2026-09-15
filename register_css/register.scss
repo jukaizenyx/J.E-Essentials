@@ -114,7 +114,7 @@
         border: 2px solid transparent;
         border-radius: 100px; 
         margin-top: -5px;
-        padding: 0 1.5%;
+        padding: 0 1.2em;
          background: 
          linear-gradient(var(--color-cream-light), var(--color-cream-light)) padding-box,
          linear-gradient(90deg, rgba(197, 160, 89, 1) 9%, rgba(236, 230, 217, 1) 33%, rgba(197, 160, 89, 1) 64%, rgba(140, 109, 52, 1) 93%, rgba(197, 160, 89, 1) 100%) border-box;
@@ -140,11 +140,11 @@
         display: inline-flex;
         margin-right:10px;
         text-decoration: none;
-        font-family: var(--font-accent);
+        font-family: var(--font-body);
         color: var(--color-black);
         justify-content: center;
         align-items: center;
-        margin-top: 5px;
+   
        
     }
  
@@ -189,7 +189,6 @@
  
 
 .main-register {
-    margin-top: 5px;
     min-height: 100vh;
     display: flex;
     flex-direction: column;

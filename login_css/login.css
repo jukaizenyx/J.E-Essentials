@@ -94,7 +94,7 @@
   border: 2px solid transparent;
   border-radius: 100px;
   margin-top: -5px;
-  padding: 0 1.2%;
+  padding: 0 1.2em;
   background: linear-gradient(var(--color-cream-light), var(--color-cream-light)) padding-box, linear-gradient(90deg, rgb(197, 160, 89) 9%, rgb(236, 230, 217) 33%, rgb(197, 160, 89) 64%, rgb(140, 109, 52) 93%, rgb(197, 160, 89) 100%) border-box;
 }
 .site-nav-inner .cta-nav img {
@@ -153,7 +153,6 @@
 }
 
 .main-login {
-  margin-top: 5px;
   min-height: 100vh;
   display: flex;
   flex-direction: column;

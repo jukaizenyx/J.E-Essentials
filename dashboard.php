@@ -1,5 +1,6 @@
 <?php
 require_once 'cart_functions.php';
+je_restore_login();
 
 if (!je_is_logged_in()) {
     header('Location: login.php?redirect=dashboard.php');
