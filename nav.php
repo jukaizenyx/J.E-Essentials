@@ -102,12 +102,18 @@ if ($je_user) {
                         <span class="profile-name"><?= htmlspecialchars($je_user['username']) ?></span>
                     </button>
                     <div class="profile-dropdown" id="profileDropdown">
-                        <a href="dashboard.php">Orders</a>
-                        <a href="profile.php">Profile</a>
-                        <a href="settings.php">Settings</a>
+                    <a href="dashboard.php">Orders</a>
+                    <a href="profile.php">Profile</a>
+                    <a href="settings.php">Settings</a>
+
+                    <?php if (!empty($je_user['is_admin']) && $je_user['is_admin'] == 1): ?>
                         <hr>
-                        <a href="logout.php">Log Out</a>
-                    </div>
+                        <a href="admin.php">Admin Dashboard</a>
+                    <?php endif; ?>
+
+                    <hr>
+                    <a href="logout.php">Log Out</a>
+                </div>
                 </div>
             <?php else: ?>
                 <a href="login.php?redirect=<?= urlencode(basename($_SERVER['PHP_SELF'])) ?>" class="account-link">LOG IN</a>
