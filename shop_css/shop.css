@@ -238,11 +238,6 @@ a {
 .account-link:hover img {
   filter: brightness(0) invert(1);
 }
-@media (max-width: 900px) {
-  .account-link {
-    display: none;
-  }
-}
 
 .cta-nav {
   display: inline-flex;

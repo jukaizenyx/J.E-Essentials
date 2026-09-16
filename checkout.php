@@ -88,10 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'Please select a valid payment method.';
     }
     if ($error === '' && $payment_method === 'GCash') {
-    if (
-        !$payment_proof_file ||
-        $payment_proof_file['error'] === UPLOAD_ERR_NO_FILE
-    ) {
+    if (!$payment_proof_file || $payment_proof_file['error'] === UPLOAD_ERR_NO_FILE) {
         $error = 'Please upload your GCash payment proof.';
     } elseif ($payment_proof_file['error'] !== UPLOAD_ERR_OK) {
         $error = 'There was a problem uploading your payment proof.';
@@ -109,6 +106,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (!in_array($file_type, $allowed_types, true)) {
             $error = 'Please upload a JPG, PNG, or WEBP image.';
         }
+    }
+}
+
+if ($error === '') {
+    if ($address_type === 'profile') {
+        $address = trim($user['address'] ?? '');
+
+        if ($address === '') {
+            $error = 'Please add an address to your profile first.';
+        }
+    } elseif ($address_type === 'new') {
+        $house = trim($_POST['house'] ?? '');
+        $street = trim($_POST['street'] ?? '');
+        $barangay = trim($_POST['barangay'] ?? '');
+        $city = trim($_POST['city'] ?? '');
+        $province = trim($_POST['province'] ?? '');
+        $zip = trim($_POST['zip'] ?? '');
+
+        if (
+            $house === '' ||
+            $street === '' ||
+            $barangay === '' ||
+            $city === '' ||
+            $province === '' ||
+            $zip === ''
+        ) {
+            $error = 'Please complete the delivery address.';
+        } else {
+            $address = "$house, $street, $barangay, $city, $province, $zip";
+        }
+    } else {
+        $error = 'Invalid address type.';
     }
 }
 
@@ -680,6 +709,17 @@ paymentMethods.forEach(function (radio) {
 });
 
 updatePaymentProof();
+</script>
+<script>
+document.querySelectorAll('input[name="address_type"]').forEach(function(radio) {
+    radio.addEventListener('change', function() {
+        const fields = document.getElementById('new-address-fields');
+
+        if (fields) {
+            fields.style.display = this.value === 'new' ? 'grid' : 'none';
+        }
+    });
+});
 </script>
 <script>
     window.JE_PRODUCTS = <?= json_encode(array_values($products), JSON_UNESCAPED_SLASHES) ?>;

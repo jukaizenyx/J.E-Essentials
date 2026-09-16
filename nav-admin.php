@@ -17,9 +17,7 @@
         <nav class="main-nav" id="mainNav">
             <ul>
                 <li><a href="admin.php#dasboard">DASHBOARD</a></li>
-                <li><a href="admin.php#orders">ORDERS</a></li>
-                <li><a href="admin.php#products">PRODUCTS</a></li>
-                <li><a href="shop.php">VIEW SHOP</a></li>
+                <li><a href="admin_products.php">PRODUCTS</a></li>
                 <li><a href="logout.php">LOG OUT</a></li>
                 
             </ul>

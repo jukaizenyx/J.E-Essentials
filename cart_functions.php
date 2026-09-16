@@ -24,10 +24,19 @@ if (!isset($_SESSION['cart']) || !is_array($_SESSION['cart'])) {
 
 function je_get_products(): array
 {
-    static $products = null;
+    global $conn;
 
-    if ($products === null) {
-        $products = require __DIR__ . '/products.php';
+    $result = mysqli_query($conn, "SELECT * FROM products ORDER BY id DESC");
+
+    if (!$result) {
+        return [];
+    }
+
+    $products = [];
+
+    while ($product = mysqli_fetch_assoc($result)) {
+        $product['sizes'] = json_decode($product['sizes'], true) ?? [];
+        $products[] = $product;
     }
 
     return $products;
@@ -41,12 +50,20 @@ function je_cart_key(int $productId, string $size): string
 function je_cart_add(int $productId, string $size, int $qty): array
 {
     $products = je_get_products();
+    $product = null;
 
-    if (!isset($products[$productId])) {
+    foreach ($products as $item) {
+        if ((int)$item['id'] === $productId) {
+            $product = $item;
+            break;
+        }
+    }
+
+    if (!$product) {
         return ['ok' => false, 'error' => 'Product not found.'];
     }
 
-    if (!isset($products[$productId]['sizes'][$size])) {
+    if (!isset($product['sizes'][$size])) {
         return ['ok' => false, 'error' => 'Invalid size selected.'];
     }
 
@@ -54,7 +71,10 @@ function je_cart_add(int $productId, string $size, int $qty): array
     $key = je_cart_key($productId, $size);
 
     if (isset($_SESSION['cart'][$key])) {
-        $_SESSION['cart'][$key]['qty'] = min(20, $_SESSION['cart'][$key]['qty'] + $qty);
+        $_SESSION['cart'][$key]['qty'] = min(
+            20,
+            $_SESSION['cart'][$key]['qty'] + $qty
+        );
     } else {
         $_SESSION['cart'][$key] = [
             'product_id' => $productId,
@@ -97,21 +117,28 @@ function je_cart_snapshot(): array
     $count = 0;
 
     foreach ($_SESSION['cart'] as $key => $entry) {
-        $product = $products[$entry['product_id']] ?? null;
+        $product = null;
+
+        foreach ($products as $item) {
+            if ((int)$item['id'] === (int)$entry['product_id']) {
+                $product = $item;
+                break;
+            }
+        }
 
         if (!$product || !isset($product['sizes'][$entry['size']])) {
             unset($_SESSION['cart'][$key]);
             continue;
         }
 
-        $price = $product['sizes'][$entry['size']];
+        $price = (float)$product['sizes'][$entry['size']];
         $lineTotal = $price * $entry['qty'];
         $subtotal += $lineTotal;
         $count += $entry['qty'];
 
         $items[] = [
             'key' => $key,
-            'product_id' => $product['id'],
+            'product_id' => (int)$product['id'],
             'name' => $product['name'],
             'image' => $product['image'],
             'size' => $entry['size'],
@@ -128,7 +155,6 @@ function je_cart_snapshot(): array
         'subtotal' => $subtotal
     ];
 }
-
 function je_is_logged_in(): bool
 {
     return !empty($_SESSION['logged_in']);
